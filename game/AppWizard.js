@@ -4,7 +4,7 @@ var inherits = require('util').inherits
 var AppWizard = function (socket, name) {
   UserMixin.call(this, socket, name);
   this.score = 0;
-};
+}
 
 inherits(AppWizard, UserMixin);
 
