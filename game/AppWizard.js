@@ -1,14 +1,14 @@
 var inherits = require('util').inherits
   , UserMixin = require('roomba-server').UserMixin
 
-var MathWizard = function (socket, name) {
+var AppWizard = function (socket, name) {
   UserMixin.call(this, socket, name);
   this.score = 0;
 };
 
-inherits(MathWizard, UserMixin);
+inherits(AppWizard, UserMixin);
 
-MathWizard.prototype.serializeState = function () {
+AppWizard.prototype.serializeState = function () {
   return {
     id: this.id,
     name: this.name,
@@ -16,4 +16,4 @@ MathWizard.prototype.serializeState = function () {
   };
 };
 
-module.exports = MathWizard;
+module.exports = AppWizard;
