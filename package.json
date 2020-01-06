@@ -1,0 +1,44 @@
+{
+  "name": "flashcard-app",
+  "version": "0.0.1-5",
+  "description": "Multiplayer math flash card game",
+  "main": "math-server.js",
+  "scripts": {
+    "test": "node tests/All-tests.js",
+    "start": "node math-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hrithikv/flashcard-app.git"
+  },
+  "keywords": [
+    "math",
+    "socket",
+    "websocket",
+    "multiplayer",
+    "game",
+    "flashcard"
+  ],
+  "author": "XYZ",
+  "license": "MIT",
+  "dependencies": {
+    "ecstatic": "~0.4.13",
+    "lodash": "~2.4.1",
+    "power-throw": "0.0.1",
+    "tiny-clock": "0.0.1",
+    "roomba-server": "0.0.6",
+    "socket.io": "~0.9.16",
+    "socket.io-client": "~0.9.16",
+    "node-stopwatch": "0.0.1",
+    "math-gen": "0.0.1"
+  },
+  "devDependencies": {
+    "tape": "~2.3.0",
+    "react-tools": "~0.5.1",
+    "reactify": "~0.5.0"
+  },
+  "subdomain": "such-math",
+  "engines": {
+    "node": "0.10.x"
+  }
+}
