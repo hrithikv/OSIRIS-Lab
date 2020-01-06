@@ -14,6 +14,7 @@ var http = require('http')
   , subtractionRoom = new AppRoom("subtraction", "-", 100, 2)
   , multiplicationRoom = new AppRoom("multiplication", "*", 12, 2);
 
+
 roomManager
   .addRoom(additionRoom)
   .addRoom(subtractionRoom)
