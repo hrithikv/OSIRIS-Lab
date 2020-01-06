@@ -45,6 +45,6 @@ AppLobby.prototype.tick = function () {
 
   _.invoke(roomUsers, "message", "tick-lobby", lobbyState);
   _.invoke(lobbyUsers, "message", "tick-lobby", lobbyState);
-};
+}
 
 module.exports = AppLobby;
