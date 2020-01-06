@@ -1,6 +1,6 @@
 var inherits = require('util').inherits
   ,  _ = require('lodash')
-  , generateProblem = require('math-gen')  
+  , generateProblem = require('app-gen')  
   , RoomMixin = require('roomba-server').RoomMixin
   , slice = Function.prototype.call.bind(Array.prototype.slice);
 
@@ -23,7 +23,7 @@ var updatePoints = function (pointTotal) {
   pointTotal.user.score += pointTotal.score;
 };
 
-var MathRoom = function (name, operator, maxValue, termCount) {
+var AppRoom = function (name, operator, maxValue, termCount) {
   RoomMixin.call(this, name); 
 
   this.operator = operator || "+";
@@ -50,9 +50,9 @@ var MathRoom = function (name, operator, maxValue, termCount) {
   this._interval = null;
 };
 
-inherits(MathRoom, RoomMixin);
+inherits(AppRoom, RoomMixin);
 
-MathRoom.prototype.start = function () {
+AppRoom.prototype.start = function () {
   var now = Date.now();
 
   this.startTime = now;
@@ -63,7 +63,7 @@ MathRoom.prototype.start = function () {
   return this;
 };
 
-MathRoom.prototype.stop = function () {
+AppRoom.prototype.stop = function () {
   var now = Date.now();
 
   this.startTime = null;
@@ -73,7 +73,7 @@ MathRoom.prototype.stop = function () {
   return this;
 };
 
-MathRoom.prototype.storeSubmission = function (submission) {
+AppRoom.prototype.storeSubmission = function (submission) {
   var numericalAnswer = Number(submission.answer);
 
   if (this.activeState === "collecting") {
@@ -83,7 +83,7 @@ MathRoom.prototype.storeSubmission = function (submission) {
   return this;
 };
 
-MathRoom.prototype.serializeState = function () {
+AppRoom.prototype.serializeState = function () {
   return {
     name: this.name,
     question: this.question,
@@ -120,7 +120,7 @@ function displayingTick (game) {
   }
 };
 
-MathRoom.prototype.tick = function () {
+AppRoom.prototype.tick = function () {
   var roomState = this.serializeState()
     , sockets = _.pluck(this.getUsers(), "socket");
 
@@ -129,4 +129,4 @@ MathRoom.prototype.tick = function () {
   _.invoke(sockets, "emit", "tick-room", roomState);
 };
 
-module.exports = MathRoom;
+module.exports = AppRoom;
