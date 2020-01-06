@@ -1,3 +1,3 @@
-require('./tests/MathRoom-tests')
-require('./tests/MathLobby-tests')
-require('./tests/MathWizard-tests')
+require('./tests/AppRoom-tests')
+require('./tests/AppLobby-tests')
+require('./tests/AppWizard-tests')
