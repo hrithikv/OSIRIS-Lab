@@ -72,14 +72,14 @@ var game = {
 
 var router = new Router(game).start();
 
-var draw = function (game) {
+var create = function (game) {
   game.gui.setProps({
     socket: game.socket,
     user: game.gameState.user,
     room: game.gameState.room,
     lobby: game.gameState.lobby,
   });
-  window.requestAnimationFrame(partial(draw, game));
+  window.requestAnimationFrame(partial(create, game));
 };
 
 socket
@@ -91,4 +91,4 @@ socket
   .on("tick-lobby", partial(updateLobby, game))
   .on("tick-room", partial(updateRoom, game));
 
-window.requestAnimationFrame(partial(draw, game));
+window.requestAnimationFrame(partial(create, game));
