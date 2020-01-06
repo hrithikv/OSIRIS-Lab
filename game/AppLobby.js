@@ -2,7 +2,7 @@ var inherits = require('util').inherits
   , _ = require('lodash')
   , RoomMixin = require('roomba-server').RoomMixin
 
-var MathLobby = function (name) {
+var AppLobby = function (name) {
   RoomMixin.call(this, name);
 
   this.startTime = null;
@@ -11,9 +11,9 @@ var MathLobby = function (name) {
   this._interval = null;
 };
 
-inherits(MathLobby, RoomMixin);
+inherits(AppLobby, RoomMixin);
 
-MathLobby.prototype.start = function () {
+AppLobby.prototype.start = function () {
   var now = Date.now();
 
   this.startTime = now;
@@ -22,7 +22,7 @@ MathLobby.prototype.start = function () {
   return this;
 };
 
-MathLobby.prototype.stop = function () {
+AppLobby.prototype.stop = function () {
   var now = Date.now();
 
   this.startTime = null;
@@ -31,14 +31,14 @@ MathLobby.prototype.stop = function () {
   return this;
 };
 
-MathLobby.prototype.serializeState = function () {
+AppLobby.prototype.serializeState = function () {
   return {
     users: _.invoke(this.getUsers(), "serializeState"),
     rooms: _.invoke(this.roomManager.getRooms(), "serializeState")
   }; 
 };
 
-MathLobby.prototype.tick = function () {
+AppLobby.prototype.tick = function () {
   var lobbyState = this.serializeState()
     , lobbyUsers = this.getUsers()
     , roomUsers = _.flatten(_.invoke(this.roomManager.getRooms(), "getUsers"));
@@ -47,4 +47,4 @@ MathLobby.prototype.tick = function () {
   _.invoke(lobbyUsers, "message", "tick-lobby", lobbyState);
 };
 
-module.exports = MathLobby;
+module.exports = AppLobby;
