@@ -3,16 +3,16 @@ var http = require('http')
   , roomba = require('roomba-server')
   , socketIO = require('socket.io')
   , _ = require('lodash')
-  , MathRoom = require('./game/MathRoom')
-  , MathLobby = require('./game/MathLobby')
-  , MathWizard = require('./game/MathWizard')
+  , AppRoom = require('./game/AppRoom')
+  , AppLobby = require('./game/AppLobby')
+  , AppWizard = require('./game/AppWizard')
   , app = http.createServer(ecstatic({root: __dirname + "/public"}))
   , server = socketIO.listen(app).set('log level', 1)
-  , lobby = new MathLobby("lobby")
+  , lobby = new AppLobby("lobby")
   , roomManager = new roomba.RoomManager(server, lobby)
-  , additionRoom = new MathRoom("addition", "+", 12, 3)
-  , subtractionRoom = new MathRoom("subtraction", "-", 100, 2)
-  , multiplicationRoom = new MathRoom("multiplication", "*", 12, 2);
+  , additionRoom = new AppRoom("addition", "+", 12, 3)
+  , subtractionRoom = new AppRoom("subtraction", "-", 100, 2)
+  , multiplicationRoom = new AppRoom("multiplication", "*", 12, 2);
 
 roomManager
   .addRoom(additionRoom)
@@ -27,7 +27,7 @@ multiplicationRoom.start();
 //SOCKET HANDLERS
 var handleBegin = _.curry(function (socket, roomManager, data) {
   var id = data.id
-    , user = new MathWizard(socket, data.name || "MathWizard");
+    , user = new AppWizard(socket, data.name || "AppWizard");
 
   roomManager.socketToUserMap[socket.id] = user;  
   roomManager.getLobby().addUser(user);
