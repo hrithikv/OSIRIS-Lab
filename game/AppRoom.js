@@ -9,7 +9,7 @@ var calculatePoints = function (sub, index, array) {
     user: sub.user,
     score: array.length - index
   };
-};
+}
 
 var calculatePointTotals = function (answer, submissions) {
   return _.chain(submissions)
