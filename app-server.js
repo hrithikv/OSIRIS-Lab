@@ -25,7 +25,6 @@ additionRoom.start();
 subtractionRoom.start();
 multiplicationRoom.start();
 
-//SOCKET HANDLERS
 var handleBegin = _.curry(function (socket, roomManager, data) {
   var id = data.id
     , user = new AppWizard(socket, data.name || "AppWizard");
