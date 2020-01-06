@@ -32,7 +32,6 @@ var AppRoom = function (name, operator, maxValue, termCount) {
 
   this.question = "";
   this.answer = "";
-  //this stores the answer while collecting is happening
   this._answer = "";
 
   this.collectingDuration = 7000;
