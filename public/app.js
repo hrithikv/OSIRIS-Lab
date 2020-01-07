@@ -17,41 +17,27 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
 
   var whitespace = (
     ' \t\x0B\f\xA0\ufeff' +
-
     '\n\r\u2028\u2029' +
-
     '\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000'
   );
 
   var reEmptyStringLeading = /\b__p \+= '';/g,
       reEmptyStringMiddle = /\b(__p \+=) '' \+/g,
       reEmptyStringTrailing = /(__e\(.*?\)|\b__t\)) \+\n'';/g;
-
-
   var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
-
   var reFlags = /\w*$/;
-
   var reFuncName = /^\s*function[ \n\r\t]+\w/;
-
   var reInterpolate = /<%=([\s\S]+?)%>/g;
-
   var reLeadingSpacesAndZeros = RegExp('^[' + whitespace + ']*0+(?=.$)');
-
   var reNoMatch = /($^)/;
-
   var reThis = /\bthis\b/;
-
   var reUnescapedString = /['\n\r\t\u2028\u2029\\]/g;
-
   var contextProps = [
     'Array', 'Boolean', 'Date', 'Function', 'Math', 'Number', 'Object',
     'RegExp', 'String', '_', 'attachEvent', 'clearTimeout', 'isFinite', 'isNaN',
     'parseInt', 'setTimeout'
   ];
-
   var templateCounter = 0;
-
   var argsClass = '[object Arguments]',
       arrayClass = '[object Array]',
       boolClass = '[object Boolean]',
@@ -61,27 +47,23 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       objectClass = '[object Object]',
       regexpClass = '[object RegExp]',
       stringClass = '[object String]';
-
   var cloneableClasses = {};
   cloneableClasses[funcClass] = false;
   cloneableClasses[argsClass] = cloneableClasses[arrayClass] =
   cloneableClasses[boolClass] = cloneableClasses[dateClass] =
   cloneableClasses[numberClass] = cloneableClasses[objectClass] =
   cloneableClasses[regexpClass] = cloneableClasses[stringClass] = true;
-
   var debounceOptions = {
     'leading': false,
     'maxWait': 0,
     'trailing': false
   };
-
   var descriptor = {
     'configurable': false,
     'enumerable': false,
     'value': null,
     'writable': false
   };
-
   var objectTypes = {
     'boolean': false,
     'function': true,
@@ -90,7 +72,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
     'string': false,
     'undefined': false
   };
-
   var stringEscapes = {
     '\\': '\\',
     "'": "'",
@@ -100,25 +81,17 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
     '\u2028': 'u2028',
     '\u2029': 'u2029'
   };
-
   var root = (objectTypes[typeof window] && window) || this;
-
   var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
-
   var freeModule = objectTypes[typeof module] && module && !module.nodeType && module;
-
   var moduleExports = freeModule && freeModule.exports === freeExports && freeExports;
-
   var freeGlobal = objectTypes[typeof global] && global;
   if (freeGlobal && (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal)) {
     root = freeGlobal;
   }
-
-
   function baseIndexOf(array, value, fromIndex) {
     var index = (fromIndex || 0) - 1,
         length = array ? array.length : 0;
-
     while (++index < length) {
       if (array[index] === value) {
         return index;
@@ -126,12 +99,9 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
     }
     return -1;
   }
-
-
   function cacheIndexOf(cache, value) {
     var type = typeof value;
     cache = cache.cache;
-
     if (type == 'boolean' || value == null) {
       return cache[value] ? 0 : -1;
     }
@@ -140,17 +110,13 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
     }
     var key = type == 'number' ? value : keyPrefix + value;
     cache = (cache = cache[type]) && cache[key];
-
     return type == 'object'
       ? (cache && baseIndexOf(cache, value) > -1 ? 0 : -1)
       : (cache ? 0 : -1);
   }
-
-
   function cachePush(value) {
     var cache = this.cache,
         type = typeof value;
-
     if (type == 'boolean' || value == null) {
       cache[value] = true;
     } else {
@@ -159,7 +125,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       }
       var key = type == 'number' ? value : keyPrefix + value,
           typeCache = cache[type] || (cache[type] = {});
-
       if (type == 'object') {
         (typeCache[key] || (typeCache[key] = [])).push(value);
       } else {
@@ -167,22 +132,17 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       }
     }
   }
-
-
   function charAtCallback(value) {
     return value.charCodeAt(0);
   }
-
   function compareAscending(a, b) {
     var ac = a.criteria,
         bc = b.criteria,
         index = -1,
         length = ac.length;
-
     while (++index < length) {
       var value = ac[index],
           other = bc[index];
-
       if (value !== other) {
         if (value > other || typeof value == 'undefined') {
           return 1;
@@ -192,47 +152,35 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
         }
       }
     }
-
     return a.index - b.index;
   }
-
-
   function createCache(array) {
     var index = -1,
         length = array.length,
         first = array[0],
         mid = array[(length / 2) | 0],
         last = array[length - 1];
-
     if (first && typeof first == 'object' &&
         mid && typeof mid == 'object' && last && typeof last == 'object') {
       return false;
     }
     var cache = getObject();
     cache['false'] = cache['null'] = cache['true'] = cache['undefined'] = false;
-
     var result = getObject();
     result.array = array;
     result.cache = cache;
     result.push = cachePush;
-
     while (++index < length) {
       result.push(array[index]);
     }
     return result;
   }
-
-
   function escapeStringChar(match) {
     return '\\' + stringEscapes[match];
   }
-
-
   function getArray() {
     return arrayPool.pop() || [];
   }
-
-
   function getObject() {
     return objectPool.pop() || {
       'array': null,
@@ -250,16 +198,12 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       'value': null
     };
   }
-
-
   function releaseArray(array) {
     array.length = 0;
     if (arrayPool.length < maxPoolSize) {
       arrayPool.push(array);
     }
   }
-
-
   function releaseObject(object) {
     var cache = object.cache;
     if (cache) {
@@ -270,7 +214,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       objectPool.push(object);
     }
   }
-
   function slice(array, start, end) {
     start || (start = 0);
     if (typeof end == 'undefined') {
@@ -279,18 +222,13 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
     var index = -1,
         length = end - start || 0,
         result = Array(length < 0 ? 0 : length);
-
     while (++index < length) {
       result[index] = array[start + index];
     }
     return result;
   }
-
-
   function runInContext(context) {
-
     context = context ? _.defaults(root.Object(), context, _.pick(root, contextProps)) : root;
-
     var Array = context.Array,
         Boolean = context.Boolean,
         Date = context.Date,
@@ -301,22 +239,15 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
         RegExp = context.RegExp,
         String = context.String,
         TypeError = context.TypeError;
-
-
     var arrayRef = [];
-
     var objectProto = Object.prototype;
-
     var oldDash = context._;
-
     var toString = objectProto.toString;
-
     var reNative = RegExp('^' +
       String(toString)
         .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
         .replace(/toString| for [^\]]+/g, '.*?') + '$'
     );
-
     var ceil = Math.ceil,
         clearTimeout = context.clearTimeout,
         floor = Math.floor,
@@ -327,7 +258,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
         setTimeout = context.setTimeout,
         splice = arrayRef.splice,
         unshift = arrayRef.unshift;
-
     var defineProperty = (function() {
       try {
         var o = {},
@@ -336,7 +266,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       } catch(e) { }
       return result;
     }());
-
     var nativeCreate = isNative(nativeCreate = Object.create) && nativeCreate,
         nativeIsArray = isNative(nativeIsArray = Array.isArray) && nativeIsArray,
         nativeIsFinite = context.isFinite,
@@ -346,7 +275,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
         nativeMin = Math.min,
         nativeParseInt = context.parseInt,
         nativeRandom = Math.random;
-
     var ctorByClass = {};
     ctorByClass[arrayClass] = Array;
     ctorByClass[boolClass] = Boolean;
@@ -356,55 +284,37 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
     ctorByClass[numberClass] = Number;
     ctorByClass[regexpClass] = RegExp;
     ctorByClass[stringClass] = String;
-
     function lodash(value) {
       return (value && typeof value == 'object' && !isArray(value) && hasOwnProperty.call(value, '__wrapped__'))
        ? value
        : new lodashWrapper(value);
     }
-
-
     function lodashWrapper(value, chainAll) {
       this.__chain__ = !!chainAll;
       this.__wrapped__ = value;
     }
     lodashWrapper.prototype = lodash.prototype;
-
     var support = lodash.support = {};
-
-
     support.funcDecomp = !isNative(context.WinRTError) && reThis.test(runInContext);
-
-
     support.funcNames = typeof Function.name == 'string';
-
     lodash.templateSettings = {
-
       'escape': /<%-([\s\S]+?)%>/g,
-
       'evaluate': /<%([\s\S]+?)%>/g,
-
       'interpolate': reInterpolate,
-
       'variable': '',
-
       'imports': {
-
         '_': lodash
       }
     };
-
     function baseBind(bindData) {
       var func = bindData[0],
           partialArgs = bindData[2],
           thisArg = bindData[4];
-
       function bound() {
         if (partialArgs) {
           var args = slice(partialArgs);
           push.apply(args, arguments);
         }
-
         if (this instanceof bound) {
           var thisBinding = baseCreate(func.prototype),
               result = func.apply(thisBinding, args || arguments);
@@ -415,8 +325,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       setBindData(bound, bindData);
       return bound;
     }
-
-
     function baseClone(value, isDeep, callback, stackA, stackB) {
       if (callback) {
         var result = callback(value);
@@ -435,11 +343,9 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
           case boolClass:
           case dateClass:
             return new ctor(+value);
-
           case numberClass:
           case stringClass:
             return new ctor(value);
-
           case regexpClass:
             result = ctor(value.source, reFlags.exec(value));
             result.lastIndex = value.lastIndex;
@@ -453,7 +359,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
         var initedStack = !stackA;
         stackA || (stackA = getArray());
         stackB || (stackB = getArray());
-
         var length = stackA.length;
         while (length--) {
           if (stackA[length] == value) {
@@ -478,18 +383,15 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       }
       stackA.push(value);
       stackB.push(result);
-
       (isArr ? forEach : forOwn)(value, function(objValue, key) {
         result[key] = baseClone(objValue, isDeep, callback, stackA, stackB);
       });
-
       if (initedStack) {
         releaseArray(stackA);
         releaseArray(stackB);
       }
       return result;
     }
-
     function baseCreate(prototype, properties) {
       return isObject(prototype) ? nativeCreate(prototype) : {};
     }
@@ -506,7 +408,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
         };
       }());
     }
-
     function baseCreateCallback(func, thisArg, argCount) {
       if (typeof func != 'function') {
         return identity;
@@ -550,7 +451,6 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       }
       return bind(func, thisArg);
     }
-
     function baseCreateWrapper(bindData) {
       var func = bindData[0],
           bitmask = bindData[1],
@@ -558,13 +458,11 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
           partialRightArgs = bindData[3],
           thisArg = bindData[4],
           arity = bindData[5];
-
       var isBind = bitmask & 1,
           isBindKey = bitmask & 2,
           isCurry = bitmask & 4,
           isCurryBound = bitmask & 8,
           key = func;
-
       function bound() {
         var thisBinding = isBind ? thisArg : this;
         if (partialArgs) {
@@ -595,14 +493,12 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       setBindData(bound, bindData);
       return bound;
     }
-
     function baseDifference(array, values) {
       var index = -1,
           indexOf = getIndexOf(),
           length = array ? array.length : 0,
           isLarge = length >= largeArraySize && indexOf === baseIndexOf,
           result = [];
-
       if (isLarge) {
         var cache = createCache(values);
         if (cache) {
@@ -623,4 +519,3 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
       }
       return result;
     }
-
