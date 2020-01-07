@@ -18,17 +18,17 @@ var clearHUD = function () {
   console.log('\u001B[2J\u001B[0;0f');
 };
 
-var createUser = function (user) {
+var makeUser = function (user) {
   console.log("Welcome: " + user.name);
 };
 
-createLobby = function (lobby) {
+makeLobby = function (lobby) {
   var rooms = lobby.rooms.forEach(function (room) {
     console.log(room.name + "   " + room.users.length);
   });
 };
 
-var createRoom = function (room) {
+var makeRoom = function (room) {
   console.log("Question: " + room.question);
   console.log("Answer: " + room.answer);
   var users = room.users.forEach(function (user) {
@@ -39,10 +39,10 @@ var createRoom = function (room) {
 
 GUI.prototype.tick = function () {
   clearHUD();
-  createUser(this.props.user);
-  createLobby(this.props.lobby);
+  makeUser(this.props.user);
+  makeLobby(this.props.lobby);
   if (this.states.activeState === "room") {
-    createRoom(this.props.room);
+    makeRoom(this.props.room);
   }
 };
 
