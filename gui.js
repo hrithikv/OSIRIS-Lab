@@ -23,7 +23,7 @@ var makeUser = function (user) {
 };
 
 makeLobby = function (lobby) {
-  var rooms = lobby.rooms.forEach(function (room) {
+  var availrooms = lobby.availrooms.forEach(function (room) {
     console.log(room.name + "   " + room.users.length);
   });
 };
