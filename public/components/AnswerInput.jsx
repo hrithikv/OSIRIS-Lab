@@ -18,7 +18,7 @@ var AnswerInput = React.createClass({
     this.setState({value: ""});
   },
 
-  handleChange: function (e) {
+  selectChange: function (e) {
     this.setState({value: e.target.value}); 
   },
 
@@ -28,7 +28,7 @@ var AnswerInput = React.createClass({
       type="text"
       className="form-control"
       value={this.state.value}
-      onChange={this.handleChange}
+      onChange={this.selectChange}
       onKeyDown={this.keyDown} />
     ); 
   },  
