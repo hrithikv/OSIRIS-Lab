@@ -10,7 +10,7 @@ var renderState = function (component, isEditing) {
           autoFocus
           className="form-control" 
           value={component.state.value} 
-          onChange={component.handleChange}
+          onChange={component.selectChange}
           onKeyDown={component.keyDown} />
       </div> 
     </form> 
@@ -76,7 +76,7 @@ var NavBar = React.createClass({
     }
   },
 
-  handleChange: function (e) {
+  selectChange: function (e) {
     this.setState({value: e.target.value}); 
   },
 
