@@ -5,16 +5,16 @@ var io = require('socket.io-client')
   , path = window.location
   , socket = io.connect(path);
 
-var createConnect = function (game) {
+var selectConnect = function (game) {
   socket.emit("begin", {name: "Player"});
 };
 
-var createBeginConfirm = function (game, user) {
+var selectBeginConfirm = function (game, user) {
   game.gameState.user = user;
   router.processHash();
 };
 
-var createJoinRoom = function (game, roomName) {
+var selectJoinRoom = function (game, roomName) {
   window.location.hash = "#room/" + roomName
   game.gui.setState({
     activeState: "room",
@@ -22,7 +22,7 @@ var createJoinRoom = function (game, roomName) {
   });
 };
 
-var createJoinLobby = function (game, lobbyName) {
+var selectJoinLobby = function (game, lobbyName) {
   window.location.hash = "#lobby";
   game.gui.setState({
     activeState: "lobby",
@@ -30,7 +30,7 @@ var createJoinLobby = function (game, lobbyName) {
   }); 
 };
 
-var createNameChangeConfirm = function (game, user) {
+var selectNameChangeConfirm = function (game, user) {
   game.gameState.user = user;
 };
 
@@ -83,11 +83,11 @@ var make = function (game) {
 };
 
 socket
-  .on("connect", partial(createConnect, game))
-  .on("begin-confirm", partial(createBeginConfirm, game))
-  .on("join-room", partial(createJoinRoom, game))
-  .on("join-lobby", partial(createJoinLobby, game))
-  .on("name-change-confirm", partial(createNameChangeConfirm, game))
+  .on("connect", partial(handleConnect, game))
+  .on("begin-confirm", partial(handleBeginConfirm, game))
+  .on("join-room", partial(handleJoinRoom, game))
+  .on("join-lobby", partial(handleJoinLobby, game))
+  .on("name-change-confirm", partial(handleNameChangeConfirm, game))
   .on("tick-lobby", partial(updateLobby, game))
   .on("tick-room", partial(updateRoom, game));
 
